@@ -25,13 +25,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     EditText eTName;
     TextView tVCount;
     Button btnCount, btnRest, btnExit;
 
     SharedPreferences settings;
+    SharedPreferences.Editor editor;
 
     int count = 0;
     String name = "";
@@ -48,6 +49,11 @@ public class MainActivity extends AppCompatActivity {
         btnExit = findViewById(R.id.btnExit);
 
         settings = getSharedPreferences ("PREFS_NAME_COUNT", MODE_PRIVATE);
+
+        name = settings.getString("name", "------");
+        eTName.setText(name);
+        count = settings.getInt("count", -1);
+        tVCount.setText(count + "");
     }
 
     /**
@@ -57,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void clickCount(View view) {
         count++;
-        tVCount.setText(count);
+        tVCount.setText(count + "");
     }
 
     /**
@@ -67,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void clickRest(View view) {
         count = 0;
-        tVCount.setText(count);
+        tVCount.setText("0");
     }
 
     /**
@@ -76,13 +82,15 @@ public class MainActivity extends AppCompatActivity {
      * @return	none
      */
     public void clickExit(View view) {
-        SharedPreferences.Editor editor = settings.edit(); // activate the editor
+         // activate the editor
 
         name = eTName.getText().toString();
-        editor.putInt(name, count);
+        editor = settings.edit();
+        editor.putString("name", name);
+        editor.putInt("count", count);
 
         editor.commit(); // close file
-        exit(1); // end program
+        finish(); // end program
     }
 
 
