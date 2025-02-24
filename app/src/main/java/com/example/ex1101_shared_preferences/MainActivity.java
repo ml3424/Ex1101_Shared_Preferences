@@ -9,8 +9,11 @@ package com.example.ex1101_shared_preferences;
 
 import static java.lang.System.exit;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -80,5 +83,32 @@ public class MainActivity extends AppCompatActivity {
 
         editor.commit(); // close file
         exit(1); // end program
+    }
+
+
+    /**
+     * creats menu
+     * @param	menu Menu
+     * @return	none
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    /**
+     * handles menu item selection
+     * @param	item MenuItem
+     * @return	none
+     */
+    public boolean onOptionsItemSelected(MenuItem item) {
+        String st = item.getTitle().toString();
+        if(st.equals("Credits"))
+        {
+            Intent creditesIntent = new Intent(this, Credits.class);
+            startActivity(creditesIntent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
